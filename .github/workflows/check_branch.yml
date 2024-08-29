@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check branch
-        if: github.base_ref == 'main' && github.head_ref != 'dev'
+        #if: github.base_ref == 'main' && github.head_ref != 'dev'
         run: |
           if [[  github.base_ref == 'main' && github.head_ref != 'stage' ]]; then
             echo "PR from stage to main"
