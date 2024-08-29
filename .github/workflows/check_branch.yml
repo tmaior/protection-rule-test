@@ -4,11 +4,16 @@ on:
   pull_request:
 
 jobs:
-  check_branch:
+  check_pr_origin_branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Check branch
-        if: github.base_ref == 'main' && github.head_ref != 'dev'
+      - name: Check PR origin branch
         run: |
-          echo "ERROR: You can only merge to main from dev."
-          exit 1
+          if [[  ${{github.base_ref}} == 'main' && ${{github.head_ref}} == 'stage' ]]; then
+            echo "PR from stage to main"
+          elif  [[  ${{github.base_ref}} == 'stage' && ${{github.head_ref}} == 'dev' ]]; then
+            echo "PR from dev to stage"
+          else
+            echo "ERROR: You cannot merge ${{github.head_ref}} to ${{github.base_ref}}."
+            exit 1
+          fi
